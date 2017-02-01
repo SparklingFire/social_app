@@ -12,7 +12,9 @@ class Index(generic.TemplateView):
 
 
 class NewsList(views.APIView):
+
     def get(self, request):
+
         queryset = Article.objects.all()
         serializer = ArticleSerializer(queryset, many=True)
         return Response(serializer.data)

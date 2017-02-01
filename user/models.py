@@ -70,3 +70,6 @@ class CustomUser(AbstractBaseUser):
 
     def get_articles(self):
         return Article.objects.filter(author=self)
+
+    def get_user_rating_object(self):
+        return self.userrating
