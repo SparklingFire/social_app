@@ -1,8 +1,11 @@
 from rest_framework import serializers
 from . import models
+from comment.serializers import CommentSerializer
 
 
 class ArticleSerializer(serializers.ModelSerializer):
+    comments = CommentSerializer(many=True, read_only=True)
+
     class Meta:
         model = models.Article
-        exclude = ('created', 'edited')
+        fields = ('title', 'text', 'comments')

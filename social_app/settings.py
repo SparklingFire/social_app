@@ -40,6 +40,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'article',
     'corsheaders',
+    'user',
+    'comment',
+    'password_management',
+    'rating',
+    'registration',
+    'tag',
 
 ]
 
@@ -142,4 +148,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 PROJECT_DIR = os.path.dirname(__file__)
 STATICFILES_DIRS = ['/home/dno/PycharmProjects/social_app/src']
-
+AUTH_USER_MODEL = 'user.CustomUser'
