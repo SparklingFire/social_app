@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Article
 from .serializers import ArticleSerializer
+from comment.serializers import CommentSerializer
 
 
 class Index(generic.TemplateView):
@@ -14,7 +15,6 @@ class Index(generic.TemplateView):
 class NewsList(views.APIView):
 
     def get(self, request):
-
         queryset = Article.objects.all()
         serializer = ArticleSerializer(queryset, many=True)
         return Response(serializer.data)
@@ -28,6 +28,7 @@ class NewsList(views.APIView):
 
 
 class NewsDetails(views.APIView):
+
     def get_object(self, pk):
         try:
             return Article.objects.get(pk=pk)
@@ -51,3 +52,13 @@ class NewsDetails(views.APIView):
         article = self.get_object(pk)
         article.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def post(self, request, pk):
+        user = 1
+        data = {'text': self.request.data, 'article': pk, 'author': user}
+        serializer = CommentSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
+        return Response(status=status.HTTP_400_BAD_REQUEST)

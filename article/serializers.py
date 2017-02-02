@@ -4,8 +4,11 @@ from comment.serializers import CommentSerializer
 
 
 class ArticleSerializer(serializers.ModelSerializer):
-    comments = CommentSerializer(many=True, read_only=True)
+    comments_data = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Article
-        fields = ('title', 'text', 'comments', 'primary_key')
+        fields = ('title', 'text', 'comments_data', 'primary_key')
+
+    def get_comments_data(self, obj):
+        return CommentSerializer(obj.comments, many=True, read_only=True).data
